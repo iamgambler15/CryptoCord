@@ -724,6 +724,7 @@
     CryptoTip Bot
   </div>
   <ul class="nav-links">
+    <li><a href="#fees">Pricing</a></li>
     <li><a href="#commands">Commands</a></li>
     <li><a href="#coins">Coins</a></li>
     <li><a href="#how">How It Works</a></li>
@@ -822,6 +823,57 @@
     <div class="stat-label">Transaction Speed</div>
   </div>
 </div>
+
+
+<!-- FEE SECTION -->
+<section class="section" id="fees">
+  <div class="section-label">// Transparent Pricing</div>
+  <h2 class="section-title fade-up">Simple flat fee.<br>No surprises.</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+
+    <div class="cmd-card fade-up" style="border-color:rgba(74,222,128,0.3);background:linear-gradient(135deg,rgba(74,222,128,0.05),var(--card));">
+      <span class="cmd-icon">💸</span>
+      <div class="cmd-name" style="color:var(--green);font-size:2rem;margin-bottom:4px;">$0.01</div>
+      <div style="color:var(--text);font-weight:700;margin-bottom:8px;">Flat Fee Per Transaction</div>
+      <div class="cmd-desc">Every tip, withdraw, airdrop and red packet charges just $0.01. No percentage cuts. No hidden fees.</div>
+    </div>
+
+    <div class="cmd-card fade-up">
+      <span class="cmd-icon">🎁</span>
+      <div class="cmd-name">$tip</div>
+      <div class="cmd-desc">Tip anyone in the server.</div>
+      <div class="cmd-example">Fee: $0.01 flat ✅</div>
+    </div>
+
+    <div class="cmd-card fade-up">
+      <span class="cmd-icon">📤</span>
+      <div class="cmd-name">$withdraw</div>
+      <div class="cmd-desc">Withdraw real crypto to your wallet.</div>
+      <div class="cmd-example">Fee: $0.01 + network fee</div>
+    </div>
+
+    <div class="cmd-card fade-up">
+      <span class="cmd-icon">🪂</span>
+      <div class="cmd-name">$airdrop</div>
+      <div class="cmd-desc">Drop coins to all participants.</div>
+      <div class="cmd-example">Fee: $0.01 flat ✅</div>
+    </div>
+
+    <div class="cmd-card fade-up">
+      <span class="cmd-icon">🧧</span>
+      <div class="cmd-name">$redpacket</div>
+      <div class="cmd-desc">First click wins everything.</div>
+      <div class="cmd-example">Fee: $0.01 flat ✅</div>
+    </div>
+
+    <div class="cmd-card fade-up" style="border-color:rgba(153,69,255,0.3);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+      <span style="font-size:2.5rem;margin-bottom:12px;">💡</span>
+      <div style="font-weight:700;margin-bottom:8px;">Compare</div>
+      <div class="cmd-desc">Most bots charge 1-5% per transaction. We charge just <strong style="color:var(--green);">$0.01 flat</strong> — no matter the amount.</div>
+    </div>
+
+  </div>
+</section>
 
 <!-- COMMANDS -->
 <section class="section" id="commands">
@@ -960,6 +1012,39 @@
 </footer>
 
 <script>
+  // Animated counter
+  function animateCounter(el, target, duration = 2000) {
+    let start = 0;
+    const step = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { start = target; clearInterval(timer); }
+      el.textContent = Math.floor(start).toLocaleString();
+    }, 16);
+  }
+
+  // Start counters when visible
+  const statsObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const usersEl = document.getElementById('stat-users');
+        const txEl = document.getElementById('stat-tx');
+        if (usersEl && !usersEl.dataset.animated) {
+          usersEl.dataset.animated = true;
+          animateCounter(usersEl, 247);
+        }
+        if (txEl && !txEl.dataset.animated) {
+          txEl.dataset.animated = true;
+          animateCounter(txEl, 1842);
+        }
+        statsObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const statsEl = document.querySelector('.stats');
+  if (statsEl) statsObserver.observe(statsEl);
+
   // Custom cursor
   const cursor = document.getElementById('cursor');
   const trail = document.getElementById('trail');
